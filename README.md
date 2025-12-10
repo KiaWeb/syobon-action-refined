@@ -29,3 +29,5 @@ No releases, just download the ZIP and use the instructions.
 
 ## Walkthrough
 It's gonna be on [YouTube](https://youtu.be/4fIzwME5-oI).
+P.S.
+Jump on the hint boxes (the orange speaker things) to read it, and press Enter to exit it. Might not work, but give it a try, it prevents crashes.
