@@ -873,61 +873,34 @@ void rpaint()
 		ChangeFontType(DX_FONTTYPE_NORMAL);
 	    }
 	}
-	// HINT SYSTEM MASTER CONTROLLER
-// -----------------------------
-ttmsg();
-
-// -----------------------------
-// OPENING ANIMATION
-// -----------------------------
-if (tmsgtype == 1)
-{
-    tmsgy += 1200;
-    tmsgtm--;
-
-    if (tmsgtm <= 0) {
-        tmsgtype = 2;  // switch to WAIT
-    }
-}
-
-// -----------------------------
-// WAIT FOREVER UNTIL ENTER IS PRESSED
-// -----------------------------
-else if (tmsgtype == 2)
-{
-    // IMPORTANT: do NOT check tmsgtm here
-    // IMPORTANT: do NOT change tmsgtm here
-
-    if (CheckHitKey(KEY_INPUT_RETURN)) {
-        tmsgtype = 3;
-        tmsgtm = 16;   // only for closing animation
-    }
-}
-
-// -----------------------------
-// CLOSING ANIMATION
-// -----------------------------
-else if (tmsgtype == 3)
-{
-    tmsgy -= 1200;
-    tmsgtm--;
-
-    if (tmsgtm <= 0) {
-        // RESET STATE
-        tmsg = 0;
-        tmsgtype = 0;
-        tmsgy = 0;
-        tmsgtm = 0;
-
-        // UNFREEZE PLAYER
-        actaon[0] = 3;
-        actaon[2] = 0;
-        actaon[3] = 0;
-        keytm = 0;
-        mkeytm = 0;
-    }
-}
-
+	if (tmsgtm > 0) {
+	    ttmsg();
+	    if (tmsgtype == 1) {
+		xx[0] = 1200;
+		tmsgy += xx[0];
+		if (tmsgtm == 1) {
+		    tmsgtm = 80000000;
+		    tmsgtype = 2;
+		}
+	    }
+	    else if (tmsgtype == 2) {
+		tmsgy = 0;
+		tmsgtype = 3;
+		tmsgtm = 15 + 1;
+	    }
+	    else if (tmsgtype == 3) {
+		xx[0] = 1200;
+		tmsgy += xx[0];
+		if (tmsgtm == 15)
+		    WaitKey();
+		if (tmsgtm == 1) {
+		    tmsgtm = 0;
+		    tmsgtype = 0;
+		    tmsgy = 0;
+		}
+	    }
+	    tmsgtm--;
+	}
 	if (mainmsgtype >= 1) {
 	    setfont(20, 4);
 	    if (mainmsgtype == 1) {
@@ -9306,96 +9279,77 @@ void ttmsg()
     if (tmsgtype == 2) {
 	setfont(20, 5);
 	if (tmsg == 0) {
-    setc1();
-    setfont(20, 5);
-
-    int line = 0;
-    line += txmsg("Test foo", line);
-}
-
-if (tmsg == 1) {
-    setc1();
-
-    int line = 0;
-    line += txmsg("", line);
-    line += txmsg("From Stage 1", line);
-    line += txmsg("There are more special elements now,", line);
-    line += txmsg("so be careful.", line);
-    line += txmsg("You might need to use some items...", line);
-    line += txmsg("- Chiku", line);
-}
-
-if (tmsg == 2) {
-    int line = 0;
-    line += txmsg("You need a \"?\" item ", line);
-    line += txmsg("m9(^Д^)", line);
-}
-
-if (tmsg == 3) {
-    int line = 0;
-    line += txmsg("The coins don't really mean anything, you know ", line);
-    line += txmsg("(・ω・ )ﾉｼ", line);
-}
-
-if (tmsg == 4) {
-    int line = 0;
-    line += txmsg("There's a hidden block ahead ", line);
-    line += txmsg("Be careful!", line);
-}
-
-if (tmsg == 5) {
-    int line = 0;
-    line += txmsg("", line);
-    line += txmsg("I lowered the difficulty compared to last time,", line);
-    line += txmsg("so enjoy and take it easy", line);
-    line += txmsg("- Chiku", line);
-}
-
-if (tmsg == 6) {
-    int line = 0;
-    line += txmsg("", line);
-    line += txmsg("If you get close to that enemy,", line);
-    line += txmsg("it will jump together with you.", line);
-    line += txmsg("Cute, right?", line);
-}
-
-if (tmsg == 7) {
-    int line = 0;
-    line += txmsg("", line);
-    line += txmsg("Were you able to bring that enemy here?", line);
-    line += txmsg("If not,", line);
-    line += txmsg("then let's dive into that pit over there!", line);
-}
-
-if (tmsg == 8) {
-    int line = 0;
-    line += txmsg("Don't rely on hints", line);
-    line += txmsg("so easily, you know", line);
-    line += txmsg("Come on, get moving to the next part!", line);
-}
-
-if (tmsg == 9) {
-    int line = 0;
-    line += txmsg("This is the real final stage.", line);
-    line += txmsg("Clear it and you'll finally reach the ending!", line);
-    line += txmsg("You could turn back through that pipe though, you know?", line);
-}
-
-if (tmsg == 10) {
-    int line = 0;
-    line += txmsg("The floor is frozen,", line);
-    line += txmsg("so it's super slippery.", line);
-}
-
-if (tmsg == 100) {
-    int line = 0;
-    line += txmsg("Huh? Me?", line);
-    line += txmsg("Oh no, I'm just a", line);
-    line += txmsg("passing hint block.", line);
-    line += txmsg("Definitely not a suspicious block or anything", line);
-    line += txmsg("(...tsk)", line);
-}
-
+	    setc1();
+	    setfont(20, 5);
+	    txmsg("テスト　hoge", 0);
+	}
+	if (tmsg == 1) {
+	    setc1();
+	    txmsg("", 0);
+	    txmsg("From Stage 1", 0);
+	    txmsg("There are more special elements now,", 1);
+	    txmsg("so be careful.", 2);
+	    txmsg
+		("You might need to use some items...", 4);
+	    txmsg("                       - Chiku", 6);
+	}
+	if (tmsg == 2) {
+	    txmsg("            You need a \"?\" item ", 3);
+	    txmsg("                         m9(^Д^)", 6);
+	}
+	if (tmsg == 3) {
+	    txmsg("   The coins don't really mean anything, you know ", 3);
+	    txmsg("                      (・ω・ )ﾉｼ", 6);
+	}
+	if (tmsg == 4) {
+	    txmsg("There's a hidden block ahead ", 2);
+	    txmsg("Be careful!", 4);
+	}
+	if (tmsg == 5) {
+	    txmsg("", 0);
+	    txmsg(" I lowered the difficulty compared to last time,", 1);
+	    txmsg(" so enjoy and take it easy    ", 3);
+	    txmsg("                       - Chiku", 6);
+	}
+	if (tmsg == 6) {
+	    txmsg("", 0);
+	    txmsg(" If you get close to that enemy,      ", 1);
+	    txmsg
+		(" it will jump together with you.",
+		 2);
+	    txmsg("   Cute, right?                  ", 3);
+	}
+	if (tmsg == 7) {
+	    txmsg("", 0);
+	    txmsg(" Were you able to bring that enemy here?     ", 1);
+	    txmsg(" If not,        ", 2);
+	    txmsg(" Then let's dive into that pit over there!    ", 3);
+	}
+	if (tmsg == 8) {
+	    txmsg("Don't rely on hints", 1);
+	    txmsg("so easily, you know", 2);
+	    txmsg("Come on, get moving to the next part!", 3);
+	}
+	if (tmsg == 9) {
+	    txmsg(" This is the real final stage.    ", 1);
+	    txmsg(" Clear it and you'll finally reach the ending!   ", 2);
+	    txmsg(" You could turn back through that pipe though, you know?   ", 3);
+	}
+	if (tmsg == 10) {
+	    txmsg
+		(" The floor is frozen, so it's super slippery.",
+		 1);
+	    txmsg(" ", 2);
+	    txmsg("                        ", 3);
+	}
+	if (tmsg == 100) {
+	    txmsg("Huh? Me? ", 0);
+	    txmsg("Oh no, I'm just a", 2);
+	    txmsg("passing hint block.", 3);
+	    txmsg
+		("Definitely not a suspicious block or anything", 5);
+	    txmsg("                          (...tsk)", 6);
+	}
 	setfont(16, 4);
     }
     if (tmsgtype == 3) {
@@ -9408,29 +9362,11 @@ if (tmsg == 100) {
 	}
     }
 }
-int txmsg(string text, int startLine)
+void txmsg(string x, int a)
 {
-    const int maxChars = 28;   
-    int line = startLine;
-
-    for (int i = 0; i < text.length(); i += maxChars)
-    {
-        string segment = text.substr(i, maxChars);
-        int xx = 6;
-
-        str(segment,
-            60 + xx,
-            40 + xx + line * 24);
-
-        line++;
-    }
-
-    return line - startLine;
+    int xx = 6;
+    str(x, 60 + xx, 40 + xx + a * 24);
 }
-
-
-
-
 void setfont(int x, int y)
 {
     SetFontSize(x);
