@@ -28,4 +28,4 @@ All I ask for is for you to give me and Koji Kondo credits to the game. Please.
 No releases, just download the ZIP and use the instructions.
 
 ## Walkthrough
-It's gonna be on YouTube.
+It's gonna be on [YouTube](https://youtu.be/4fIzwME5-oI).
